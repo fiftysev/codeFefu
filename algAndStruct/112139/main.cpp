@@ -1,27 +1,26 @@
 #include <iostream>
-#include <fstream>
 #include <string>
 using namespace std;
 
+int min(int a, int b, int c) {return min(min(a, b), c);}
 
-int min(int x, int y, int z) {return min (min(x, y), z);}
-
-int calcDistance(string firstString, string secondString, int m, int n) {
-    if (m == 0) return n;
-    if (n == 0) return m;
-    if (firstString[m - 1] == secondString[n - 1]) {
-        return calcDistance(firstString, secondString, m - 1, n - 1);
+int calcDistance (string firstString, string secondString, int m, int n) {
+    int calcMx[m + 1][n + 1];
+    for (int i = 0; i <= m; i++) {
+        for (int j = 0; j <= n; j++) {
+            if (i == 0) calcMx[i][j] = j;
+            else if (j == 0) calcMx[i][j] = i;
+            else if (firstString[i - 1] == secondString[j - 1]) calcMx[i][j] = calcMx[i - 1][j - 1];
+            else calcMx[i][j] = 1 + min(calcMx[i][j - 1], calcMx[i - 1][j], calcMx[i - 1][j - 1]);
+        }
     }
-    return 1 + min(calcDistance(firstString, secondString, m, n - 1),
-                   calcDistance(firstString, secondString, m - 1, n),
-                   calcDistance(firstString, secondString, m - 1, n - 1)
-                   );
+    return calcMx[m][n];
 }
+
 
 int main() {
     int m, n;
     string firstString, secondString;
     cin >> m >> firstString >> n >> secondString;
-    cout << calcDistance(firstString, secondString, m, n);
-    return 0;
+    cout << calcDistance(firstString, secondString, m ,n);
 }
