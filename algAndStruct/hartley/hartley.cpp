@@ -25,6 +25,6 @@ int main()
     for (int i = 0; i < s.size(); i++) m[s[i]] = code++;
     int wordLength = ceil(log2(m.size()));
     for (auto it = m.begin(); it != m.end(); it++)
-        cout << it->first << " -> " << decToBin(it->second, wordLength)  << endl;
+        out << it->first << " -> " << decToBin(it->second, wordLength)  << endl;
     return 0;
 }
