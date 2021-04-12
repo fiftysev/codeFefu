@@ -34,12 +34,13 @@ void processFunction() {
         vector <string> text(line.length() + 1);
         text[0] = "";
         for (int j = 1; j < line.length() + 1; j++) {
-            text[j] = text[j - 1] + line[j - 1];
+            text += temp[j - 1]
 
             for (auto element : replaceElements)
             {
                 int replaceLen = element.first.size();
-                if (replaceLen <= j && line.compare(j - replaceLen, replaceLen, element.first) == 0 && text[j - replaceLen].length() < text[j].length())
+                if (replaceLen <= j && line.compare(j - replaceLen, replaceLen, element.first) == 0 &&
+                    text[j - replaceLen].length() < text[j].length())
                     text[j] = text[j - replaceLen] + element.second;
             }     
         }
