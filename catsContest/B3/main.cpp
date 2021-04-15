@@ -56,13 +56,9 @@ void check_test(vector<test> &a)
 
 int main()
 {
-  freopen("input.txt", "r", stdin);
-  freopen("output.txt", "w", stdout);
-
   cin >> P >> Q;
   vector<string> key;
   vector<test> member(P);
-
   for (auto &i : member)
   {
     cin >> i.answers >> i.score;
@@ -72,7 +68,6 @@ int main()
       return 0;
     }
   }
-
   check_test(member);
   return 0;
 }
