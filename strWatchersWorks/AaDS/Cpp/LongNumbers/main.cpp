@@ -154,11 +154,19 @@ ln factorial(int a) {
     return result;
 }
 
+ln double_factorial(int a) {
+    ln result = ln(1);
+    for (int i = a; i >= 2; i-=2) {
+        result = result.multiple_with_int(i);
+    }
+    return result;
+}
+
 int main() {
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 
     int t1;
     cin >> t1;
-    factorial(t1).print();
+    double_factorial(t1).print();
 }
