@@ -186,7 +186,7 @@ int main() {
     freopen("output.txt", "w", stdout);
 
     string t1;
-    int t2;
+    unsigned long long t2;
     cin >> t1 >> t2;
     pair<ln, int> res_and_carry = ln(t1).division_with_int(t2);
 
