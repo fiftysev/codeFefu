@@ -127,24 +127,22 @@ struct ln {
         return result;
     }
 
-    pair<ln, int> division_with_int(int b) {
-        ln result = ln();
+    pair<ln, int> divide_with_int(int b) {
         int carry = 0;
-        pair<ln, int> res;
-        if (b > base) {
-            res.first = result;
-            res.second = carry;
-            return res;
-        }
-
-        long long curent_result;
+        vector <int> result_value(this->value.size());
+        long long current_result;
+        ln result = ln(result_value, false);
         for (int i =(int)this->value.size() - 1; i >= 0; --i) {
-            curent_result = this->value[i] + carry * 1ll * base;
-            if (curent_result/b == 0 and result.value.empty()) 1;
-            else result.value.push_back(int(curent_result / b));
-            carry = int (curent_result % b);
+            current_result = this->value[i] + carry * 1ll * base;
+            result.value[i] = (int(current_result / b));
+            carry = int (current_result % b);
         }
 
+        while (result.value.size() > 1 && result.value.back() == 0) {
+            result.value.pop_back();
+        }
+
+        pair<ln, int> res;
         res.first = result;
         res.second = carry;
         return res;
@@ -188,7 +186,7 @@ int main() {
     string t1;
     unsigned long long t2;
     cin >> t1 >> t2;
-    pair<ln, int> res_and_carry = ln(t1).division_with_int(t2);
+    pair<ln, int> res_and_carry = ln(t1).divide_with_int(t2);
 
     res_and_carry.first.print();
     cout << res_and_carry.second;
