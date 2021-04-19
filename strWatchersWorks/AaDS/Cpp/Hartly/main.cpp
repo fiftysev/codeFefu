@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 
+#define BYTE_LEN 7
+
 using namespace std;
 
 char get_bit(int goal, int pos) {return (goal >> pos & 1) + '0';}
@@ -52,6 +54,18 @@ string read_text(string &file_path) {
 
 }
 
+char byte_to_char(string byte) {
+    int result = 0;
+    for (int i = 0; i < byte.length(); ++i) {
+
+        int flag = (byte[i] == '1');
+        result += flag;
+        result <<= 1;
+
+    }
+    return result;
+}
+
 void archivate(string file_path) {
     string text = read_text(file_path);
     file_path.replace(file_path.length() - 4, 4,"_arch.txt");
@@ -62,14 +76,24 @@ void archivate(string file_path) {
     int code_len = calculate_code_len(alphabet);
     map <char, string> dict = gen_dict(alphabet);
     map <char, string>::iterator dict_iterator;
-    archived_file << alphabet_len << " " << code_len << endl;
+    archived_file << alphabet_len << " " << code_len << " ";
+
+    string translated_text;
+    for (auto letter: text) {
+        translated_text += dict[letter];
+    }
+    archived_file << translated_text.length() << endl;
+
     for (dict_iterator = dict.begin(); dict_iterator != dict.end(); ++dict_iterator) {
         archived_file << (int)dict_iterator->first << " " << dict_iterator->second << endl;
     }
 
-    for (auto letter: text) {
-        archived_file << dict[letter];
+    string archived_text;
+    for (int i = 0; i < translated_text.length(); i += BYTE_LEN) {
+        archived_text += byte_to_char(translated_text.substr(i * BYTE_LEN, BYTE_LEN));
     }
+
+    archived_file << archived_text;
     archived_file.close();
 }
 
@@ -99,5 +123,5 @@ void dearchivate(string file_path, string dearchived_file_name) {
 
 int main () {
     archivate("test1.txt");
-    dearchivate("test1_arch.txt", "unarchived_test1.txt");
+    //dearchivate("test1_arch.txt", "unarchived_test1.txt");
 }
