@@ -1,0 +1,3 @@
+/Users/egorblinov/dev/OneDrive /coding/algAndStruct/longnums/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/egorblinov/dev/OneDrive /coding/algAndStruct/longnums/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/egorblinov/dev/OneDrive /coding/algAndStruct/longnums/cmake-build-debug/CMakeFiles/longnums.dir
