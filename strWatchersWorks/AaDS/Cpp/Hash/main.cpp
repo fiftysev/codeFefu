@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 
 #define ALPHABET_LEN 78
-#define ull long long
+#define ull unsigned long long
 
 using namespace std;
 
@@ -13,23 +13,20 @@ ull h1(string line, ull hash_code_range) {
     return key;
 }
 
-bool inserts(int *map, ull index) {
-    return map[index];
-}
-
 void map_emulator() {
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
-
-    ull hash_code_range;
-    cin >> hash_code_range;
-    int *map_emu = new int[hash_code_range];
-    for (ull i = 0; i < hash_code_range; ++i){
-        map_emu[i] = false;
+    int lines_count;
+    int hash_code_range;
+    string cur;
+    cin >> hash_code_range >> lines_count;
+    getline(cin, cur);
+    for (int i = 0; i < lines_count; ++i) {
+        getline(cin, cur);
+        cout << h1(cur, hash_code_range) << endl;
     }
-    string cur_line;
-    getline(cin, cur_line);
 
+}
 int main() {
    map_emulator();
 }
