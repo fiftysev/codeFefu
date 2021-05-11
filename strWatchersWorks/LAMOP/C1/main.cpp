@@ -1,61 +1,61 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
+
 using namespace std;
 
-int main()
-{
+int main() {
     ios::sync_with_stdio(false);
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
-    int n, m, level, weightCat;
+    int n, m, power_level, weight_category;
+
     cin >> n >> m;
-    vector<vector<int> > a;
-    vector<int> enemiesInWeightCat(m);
-    for (int i = 0; i < n; i++)
+
+    vector <vector <int> > all_boxers;
+    vector <int> enemies_in_category(m);
+
+    for (int i = 0; i < n; ++i)
     {
-        cin >> level >> weightCat;
-        a.push_back({level, weightCat - 1, 0}); // последнее значение при push_back - флаг команды
+        cin >> power_level >> weight_category;
+        all_boxers.push_back({power_level, weight_category - 1, 0});
     }
-    for (int i = 0; i < n; i++)
+
+    for (int i = 0; i < n; ++i)
     {
-        cin >> level >> weightCat;
-        a.push_back({level, weightCat - 1, 1});
-        enemiesInWeightCat[weightCat - 1]++; //считаем количество соперников в весовой категории
+        cin >> power_level >> weight_category;
+        all_boxers.push_back({power_level, weight_category - 1, 1});
+        enemies_in_category[weight_category - 1]++;
     }
-    sort(a.begin(), a.end()); // сортируем в порядке возрастания уровня мастерства
-    vector<int> count(m);
-    int bestDifference = 0, ans = 0;
-    for (int i = 0; i < n * 2; i++)
-    { // до n*2, тк N в каждой команде
-        if (a[i][2] == 1)
+
+    sort(all_boxers.begin(), all_boxers.end());
+
+    vector <int> defeated_enemies_in_category(m);
+    int best_difference = 0, result = 0;
+
+    for (int i = 0; i < n * 2; ++i)
+    {
+        if (all_boxers[i][2] == 1)
         {
-            count[a[i][1]]++; // если встретился противник, считаем сколько на данный момент встретили в этой весовой категории
+            defeated_enemies_in_category[all_boxers[i][1]]++;
         }
         else
         {
-            int cur_score = 2 * count[a[i][1]] - enemiesInWeightCat[a[i][1]];
-            /*
-                  Счет при бое текущего бойца = количеству уже встретившихся соперников в весовой категории
-                  текущего бойца х2 - общее количество соперников в весовой категории
-                  Собственно это и есть та самая разница в очках, на которую мы и будем опираться
-                  при поиске того, кого стоило бы заменить
-                  */
-            ans += cur_score;
-            for (int j = 0; j < m; j++)
+            int cur_category = all_boxers[i][1];
+            int victorious_enemies = enemies_in_category[cur_category] - defeated_enemies_in_category[cur_category];
+            int current_score = defeated_enemies_in_category[cur_category] - victorious_enemies;
+            result += current_score;
+
+            for (int j = 0; j < m; ++j)
             {
-                if (j != a[i][1])
+                if (j != cur_category)
                 {
-                    bestDifference = max(bestDifference, 2 * count[j] - enemiesInWeightCat[j] - cur_score);
-                    /*
-                              Лучшая разница - максимум из уже посчитанной лучшей разницы и текущий счет в другой весовой категории
-                               -разница которую получили для текущего бойца
-                              */
+                    int changed_victorious_enemies = enemies_in_category[j] - defeated_enemies_in_category[j];
+                    int changed_score = defeated_enemies_in_category[j] - changed_victorious_enemies;
+                    best_difference = max(best_difference, changed_score - current_score);
                 }
             }
         }
     }
-    cout << ans + bestDifference; // В ответ идет общая сумма всех результатов раунда + лучшая разница в очках которую мы посчитали (я и мой алгоритм)
 
-    return 0;
+
+    cout << result + best_difference;
 }
