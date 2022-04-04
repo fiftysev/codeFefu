@@ -1,0 +1,7 @@
+venv
+cmake-build-debug
+.idea
+.DS_Store
+.vs_code
+.vscode
+a.out
